@@ -1,0 +1,6 @@
+#composer vendor folder
+vendor/
+
+#sublime files
+*.sublime-project
+*.sublime-workspace

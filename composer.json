@@ -1,0 +1,23 @@
+{
+    "name": "veridu/veridu-php",
+    "description": "Veridu PHP SDK",
+    "keywords": ["veridu", "sdk", "user identification", "social media", "online services", "single sign on"],
+    "authors": [
+        {
+            "name": "Veridu ApS",
+            "email": "contact@veridu.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "Veridu": "src"
+        }
+    },
+    "suggest": {
+        "ext-curl": "cURL based HTTP Client"
+    }
+}
