@@ -2,66 +2,69 @@
 
 namespace Veridu\SDK;
 
+use Veridu\Common\Config;
 /**
-*	Widget endpoint handling
+* Widget endpoint handling
 */
 class Widget {
-	private $client;
-	private $version;
+	/**
+	* @var Config Config instance
+	*/
+	private $config;
+	/**
+	* @var string Session token
+	*/
 	private $session;
+	/**
+	* @var string Username identification
+	*/
 	private $username;
 
+	/**
+	* Base widget URL
+	*/
 	const BASE_URL = 'https://widget.veridu.com';
 
 	/**
-	* @param string $client
-	* @param string $version
-	* @param string $session
-	* @param string $username
+	* @param Config $config Config object with basic client configuration
+	* @param string $session Session token
+	* @param string $username Username identification
 	*
 	* @return void
 	*/
-	public function __construct($client, $version, $session, $username) {
-		$this->client = $client;
-		$this->version = $version;
+	public function __construct(Config &$config, $session, $username) {
+		$this->config = $config;
 		$this->session = $session;
 		$this->username = $username;
+		//workaround for PHP 5.3
+		if (!defined('PHP_QUERY_RFC1738'))
+			define('PHP_QUERY_RFC1738', 1);
 	}
 
 	/**
-	* @param string $value
+	* Sets the basic client configuration
+	*
+	* @param Config $config Basic client configuration
 	*
 	* @return void
 	*/
-	public function setClient($value) {
-		$this->client = $value;
+	public function setConfig(Config &$config) {
+		$this->config = $config;
 	}
 
 	/**
-	* @return string
-	*/
-	public function getClient() {
-		return $this->client;
-	}
-
-	/**
-	* @param string $value
+	* Returns the current basic client configuration
 	*
-	* @return void
+	* @return Config
 	*/
-	public function setVersion($value) {
-		$this->version = $value;
+	public function getConfig() {
+		return $this->config;
 	}
 
 	/**
-	* @return string
-	*/
-	public function getVersion() {
-		return $this->version;
-	}
-
-	/**
-	* @param string $value
+	* Sets session token
+	*
+	* @param string $value Token value
 	*
 	* @return void
 	*/
@@ -70,14 +73,18 @@ class Widget {
 	}
 
 	/**
-	* @return string
+	* Returns the session token
+	*
+	* @return string|null
 	*/
 	public function getSession() {
 		return $this->session;
 	}
 
 	/**
-	* @param string $value
+	* Sets the username identification
+	*
+	* @param string $value Username identification
 	*
 	* @return void
 	*/
@@ -86,6 +93,8 @@ class Widget {
 	}
 
 	/**
+	* Returns the username identification
+	*
 	* @return string
 	*/
 	public function getUsername() {
@@ -93,10 +102,14 @@ class Widget {
 	}
 
 	/**
-	* @param string $resource
-	* @param string/array $query
+	* Returns a wiget endpoint full URL
+	*
+	* @param string $resource Resource URI
+	* @param string|array $query Resource query string
 	*
 	* @return string
+	*
+	* @throws MissingUsername
 	*/
 	public function getEndpoint($resource, $query = null) {
 		if (empty($this->username))
@@ -109,7 +122,7 @@ class Widget {
 			$query = http_build_query($query, '', '&', PHP_QUERY_RFC1738);
 		} else
 			$query .= "&session={$this->session}";
-		return sprintf("%s/%s/%s/%s/%s?%s", self::BASE_URL, $this->version, $resource, $this->client, $this->username, $query);
+		return sprintf("%s/%s/%s/%s/%s?%s", self::BASE_URL, $this->config->getVersion(), $resource, $this->config->getClient(), $this->username, $query);
 	}
 
 }

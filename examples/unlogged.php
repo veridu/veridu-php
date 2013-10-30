@@ -6,33 +6,33 @@ require_once __DIR__ . '/settings.php';
 
 try {
 	session_start();
-	//api object creation
-	$api = new Veridu\SDK\API(
-		$config['client'],
-		$config['secret'],
-		$config['version'],
-		new Veridu\HTTPClient\CurlClient,
-		new Veridu\Signature\HMAC(
-			$config['client'],
-			$config['secret'],
-			$config['version']
+	//session object creation
+	$session = new Veridu\SDK\Session(
+		new Veridu\SDK\API(
+			new Veridu\Common\Config(
+				$config['client'],
+				$config['secret'],
+				$config['version']
+			),
+			new Veridu\HTTPClient\CurlClient,
+			new Veridu\Signature\HMAC
 		)
 	);
 
 	//cache check / expire check
 	if ((empty($_SESSION['veridu']['expires'])) || ((intval($_SESSION['veridu']['expires']) - time()) <= 0)) {
-		$api->sessionCreate(true);
+		$session->create(true);
 		$_SESSION['veridu'] = array(
-			'session' => $api->getSession(),
-			'expires' => $api->getExpires()
+			'session' => $session->getToken(),
+			'expires' => $session->getExpires()
 		);
 	} else {
-		$api->setSession($_SESSION['veridu']['session']);
+		$session->setToken($_SESSION['veridu']['session']);
 
 		//extend session if it will expire in less than a minute
 		if ((intval($_SESSION['veridu']['expires']) - time()) < 60) {
-			$api->sessionExtend();
-			$_SESSION['veridu']['expires'] = $api->getExpires();
+			$session->extend();
+			$_SESSION['veridu']['expires'] = $session->getExpires();
 		}
 	}
 } catch (Exception $exception) {
@@ -47,16 +47,16 @@ try {
 		<meta charset="utf-8">
 		<title>For unlogged users</title>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="//assets.veridu.com/<?=$api->getVersion();?>/sdk/veridu.min.js"></script>
+		<script type="text/javascript" src="//assets.veridu.com/<?=$config['version'];?>/sdk/veridu.min.js"></script>
 	</head>
 	<body>
 		<!-- content goes here -->
 		<script type="text/javascript">
 			$(function() {
 				var veridu = new Veridu({
-					client: '<?=$api->getClient();?>',
-					session: '<?=$api->getSession();?>',
-					version: '<?=$api->getVersion();?>'
+					client: '<?=$config['client'];?>',
+					session: '<?=$session->getToken();?>',
+					version: '<?=$config['version'];?>'
 				});
 				//code goes here
 			});

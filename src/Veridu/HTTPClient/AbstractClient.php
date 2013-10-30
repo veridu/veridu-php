@@ -6,10 +6,18 @@ namespace Veridu\HTTPClient;
 * Abstract Client implementation
 */
 abstract class AbstractClient implements HTTPClient {
+	/**
+	* @var array Stores headers name/values
+	*/
 	protected $headers = array();
+	/**
+	* @var string User-Agent to be sent on each request
+	*/
 	protected $userAgent = 'StreamClient';
 
 	/**
+	* Prepares the headers to be set by the client
+	*
 	* @return array
 	*/
 	protected function prepareHeaders() {
@@ -31,6 +39,15 @@ abstract class AbstractClient implements HTTPClient {
 	*/
 	public function unsetHeader($header) {
 		unset($this->headers[$header]);
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getHeader($header) {
+		if (isset($this->headers[$header]))
+			return $this->headers[$header];
+		return null;
 	}
 
 	/**

@@ -2,27 +2,41 @@
 
 namespace Veridu\SDK;
 
+use Veridu\Common\Config;
 use Veridu\HTTPClient\HTTPClient;
 use Veridu\Signature\Signature;
 
 /**
-*	Full API access
+* Full API client
 */
 class API {
-	private $client;
-	private $secret;
-	private $version;
+	/**
+	* @var Config Basic client configuration
+	*/
+	private $config;
+	/**
+	* @var HTTPClient HTTP Client to perform API requests
+	*/
 	private $http;
+	/**
+	* @var Signature object for signed API requests
+	*/
 	private $signature;
+	/**
+	* @var string Session token
+	*/
 	private $session = null;
-	private $username = null;
-
-	const BASE_URL = 'https://api.veridu.com';
-	const VERSION = '0.2.0';
 
 	/**
-	* @param string $resource
-	* @param string/array $query
+	* Base API URL
+	*/
+	const BASE_URL = 'https://api.veridu.com';
+
+	/**
+	* Builds an API full URL, properly encoded
+	*
+	* @param string $resource Resource URI
+	* @param string|array $query Request query string
 	*
 	* @return string
 	*/
@@ -36,37 +50,41 @@ class API {
 			else
 				$resource .= "&{$query}";
 		}
-		return sprintf("%s/%s/%s", self::BASE_URL, $this->version, $resource);
+		return sprintf("%s/%s/%s", self::BASE_URL, $this->config->getVersion(), $resource);
 	}
 
 	/**
-	* @param string $client
-	* @param string $secret
-	* @param string $version
-	* @param HTTPClient $http
-	* @param Signature $signature
+	* @param Config $config Basic client configuration
+	* @param HTTPClient $http HTTP Client to perform API requests
+	* @param Signature $signature Signature object for signed API requests
 	*
 	* @return void
 	*/
-	public function __construct($client, $secret, $version, HTTPClient &$http, Signature &$signature) {
-		$this->client = $client;
-		$this->secret = $secret;
-		$this->version = $version;
+	public function __construct(Config &$config, HTTPClient &$http, Signature &$signature) {
+		$this->config = $config;
 		$this->setHTTP($http);
-		$this->signature = $signature;
+		$this->setSignature($signature);
+		//workaround for PHP 5.3
+		if (!defined('PHP_QUERY_RFC1738'))
+			define('PHP_QUERY_RFC1738', 1);
 	}
 
 	/**
-	* @param string $method
-	* @param string $resource
-	* @param string/array $data
+	* Fetches an API resource
+	*
+	* @param string $method Request method
+	* @param string $resource Resource URI
+	* @param string|array $data Request payload/query string
 	*
 	* @return string
 	*
-	* @throws InvalidMethod InvalidFormat InvalidResponse APIError
+	* @throws Exception\InvalidMethod
+	* @throws Exception\InvalidFormat
+	* @throws Exception\InvalidResponse
+	* @throws Exception\APIError
 	*/
 	public function fetch($method, $resource, $data = null) {
-		switch ($method) {
+		switch (strtoupper($method)) {
 			case 'GET':
 				$response = $this->http->GET($this->buildURL($resource, $data));
 				break;
@@ -95,15 +113,27 @@ class API {
 	}
 
 	/**
-	* @param string $method
-	* @param string $resource
+	* Fetches a signed API resource
+	*
+	* @param string $method Request method
+	* @param string $resource Resource URI
 	*
 	* @return string
 	*
-	* @throws InvalidMethod InvalidFormat InvalidResponse APIError NonceMismatch
+	* @throws Exception\InvalidMethod
+	* @throws Exception\InvalidFormat
+	* @throws Exception\InvalidResponse
+	* @throws Exception\APIError
+	* @throws \Veridu\Signature\Exception\NonceMismatch
 	*/
 	public function signedFetch($method, $resource) {
-		$sign = $this->signature->sign($method, $this->buildURL($resource));
+		$sign = $this->signature->sign(
+			$this->config->getClient(),
+			$this->config->getSecret(),
+			$this->config->getVersion(),
+			$method,
+			$this->buildURL($resource)
+		);
 		$json = $this->fetch($method, $resource, $sign);
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))
 			throw new Signature\Exception\NonceMismatch;
@@ -112,71 +142,44 @@ class API {
 	}
 
 	/**
-	* @param string $value
+	* Sets the basic client configuration
+	*
+	* @param Config $config Basic client configuration
 	*
 	* @return void
 	*/
-	public function setClient($value) {
-		$this->client = $value;
-		$this->http->setHeader('Veridu-Client', $value);
-		$this->signature->setClient($value);
+	public function setConfig(Config &$config) {
+		$this->config = $config;
+		$this->http->setHeader('Veridu-Client', $this->config->getClient());
 	}
 
 	/**
-	* @return string
-	*/
-	public function getClient() {
-		return $this->client;
-	}
-
-	/**
-	* @param string $value
+	* Returns the current basic client configuration
 	*
-	* @return void
+	* @return Config
 	*/
-	public function setSecret($value) {
-		$this->secret = $value;
-		$this->signature->setSecret($value);
+	public function getConfig() {
+		return $this->config;
 	}
 
 	/**
-	* @return string
-	*/
-	public function getSecret() {
-		return $this->secret;
-	}
-
-	/**
-	* @param string $value
+	* Sets the HTTP Client to perform API requests
 	*
-	* @return void
-	*/
-	public function setVersion($value) {
-		$this->version = $value;
-		$this->signature->setVersion($value);
-	}
-
-	/**
-	* @return string
-	*/
-	public function getVersion() {
-		return $this->version;
-	}
-
-	/**
-	* @param HTTPClient $http
+	* @param HTTPClient $http HTTP Client
 	*
 	* @return void
 	*/
 	public function setHTTP(HTTPClient &$http) {
 		$this->http = $http;
-		$this->http->setHeader('Veridu-Client', $this->client);
-		if (!is_null($this->session))
-			$this->http->setHeader('Veridu-Session', $this->session['token']);
-		$this->http->setUserAgent('Veridu-PHP/' . self::VERSION);
+		$this->http->setHeader('Veridu-Client', $this->config->getClient());
+		if (!empty($this->session))
+			$this->http->setHeader('Veridu-Session', $this->session);
+		$this->http->setUserAgent('Veridu-PHP/' . Version::stringify());
 	}
 
 	/**
+	* Returns the current HTTP Client
+	*
 	* @return HTTPClient
 	*/
 	public function getHTTP() {
@@ -184,7 +187,9 @@ class API {
 	}
 
 	/**
-	* @param Signature $signature
+	* Sets the signature object for signed API requests
+	*
+	* @param Signature $signature Signature object
 	*
 	* @return void
 	*/
@@ -193,6 +198,8 @@ class API {
 	}
 
 	/**
+	* Returns the current signature object
+	*
 	* @return Signature
 	*/
 	public function getSignature() {
@@ -200,121 +207,43 @@ class API {
 	}
 
 	/**
-	* @param string $value
+	* Sets the session token to be used on requests
+	*
+	* @param string $value Session token
 	*
 	* @return void
 	*/
 	public function setSession($value) {
-		$this->session['token'] = $value;
+		$this->session = $value;
 		$this->http->setHeader('Veridu-Session', $value);
 	}
 
 	/**
+	* Returns the session token
+	*
 	* @return string
 	*/
 	public function getSession() {
-		if (empty($this->session['token']))
-			return null;
-		return $this->session['token'];
+		return $this->session;
 	}
 
 	/**
-	* @param integer $value
+	* Eliminates the session token
 	*
 	* @return void
 	*/
-	public function setExpires($value) {
-		$this->session['expires'] = $value;
+	public function purgeSession() {
+		$this->session = null;
+		$this->http->unsetHeader('Veridu-Session');
 	}
 
 	/**
-	* @return integer
-	*/
-	public function getExpires() {
-		if (empty($this->session['expires']))
-			return null;
-		return intval($this->session['expires']);
-	}
-
-	/**
-	* @param string $value
+	* Returns the last API error
 	*
-	* @return void
-	*/
-	public function setUsername($value) {
-		$this->username = $value;
-	}
-
-	/**
-	* @return string
-	*/
-	public function getUsername() {
-		return $this->username;
-	}
-
-	/**
-	* @return string
+	* @return string|null
 	*/
 	public function lastError() {
 		return $this->lastError;
-	}
-
-	/**
-	* @param boolean $readonly
-	*
-	* @return void
-	*
-	* @throws InvalidMethod InvalidResponse InvalidFormat APIError NonceMismatch
-	*/
-	public function sessionCreate($readonly = true) {
-		if (is_null($this->session)) {
-			if ($readonly)
-				$json = $this->signedFetch('POST', 'session');
-			else
-				$json = $this->signedFetch('POST', 'session/write');
-			$this->setSession($json['token']);
-			$this->setExpires($json['expires']);
-		}
-	}
-
-	/**
-	* @return void
-	*
-	* @throws InvalidMethod InvalidResponse InvalidFormat APIError NonceMismatch EmptySession
-	*/
-	public function sessionExtend() {
-		if (is_null($this->session))
-			throw new Exception\EmptySession;
-		$json = $this->signedFetch('PUT', "session/{$this->session['token']}");
-		$this->setExpires($json['expires']);
-	}
-
-	/**
-	* @return void
-	*
-	* @throws InvalidMethod InvalidResponse InvalidFormat APIError NonceMismatch EmptySession
-	*/
-	public function sessionExpire() {
-		if (is_null($this->session))
-			throw new Exception\EmptySession;
-		$json = $this->signedFetch('DELETE', "session/{$this->session['token']}");
-		$this->http->unsetHeader('Veridu-Session');
-		$this->session = null;
-		$this->setUsername(null);
-	}
-
-	/**
-	* @return void
-	*
-	* @throws InvalidMethod InvalidResponse InvalidFormat APIError NonceMismatch EmptySession InvalidUsername
-	*/
-	public function userCreate($username) {
-		if (is_null($this->session))
-			throw new Exception\EmptySession;
-		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
-			throw new Exception\InvalidUsername;
-		$json = $this->signedFetch('POST', "user/{$username}");
-		$this->setUsername($username);
 	}
 
 }

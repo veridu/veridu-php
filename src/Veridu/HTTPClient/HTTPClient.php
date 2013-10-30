@@ -3,68 +3,95 @@
 namespace Veridu\HTTPClient;
 
 /**
-*	HTTP Client interface
+* HTTP Client interface
 */
 interface HTTPClient {
 
 	/**
-	* @param string $header
-	* @param string $value
+	* Sets a header value
+	*
+	* @param string $header Header name
+	* @param string $value Header value
 	*
 	* @return void
 	*/
 	public function setHeader($header, $value);
 
 	/**
-	* @param string $header
+	* Unsets a header value
+	*
+	* @param string $header Header name
 	*
 	* @return void
 	*/
 	public function unsetHeader($header);
 
 	/**
-	* @param string $value
+	* Returns a header value
+	*
+	* @param string $header Header name
+	*
+	* @return string|null Header value
+	*/
+	public function getHeader($header);
+
+	/**
+	* Sets the User-Agent property
+	*
+	* @param string $value User-Agent value
 	*
 	* @return void
 	*/
 	public function setUserAgent($value);
 
 	/**
-	* @param string $url
+	* Performs a HTTP GET on a given URL
 	*
-	* @return string
+	* @param string $url Full URL to resource
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	public function GET($url);
 
 	/**
-	* @param string $url
-	* @param string/array $data
+	* Performs a HTTP POST on a given URL
 	*
-	* @return string
+	* @param string $url Full URL to resource
+	* @param string|array $data Request payload
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	public function POST($url, $data = null);
 
 	/**
-	* @param string $url
-	* @param string/array $data
+	* Performs a HTTP DELETE on a given URL
 	*
-	* @return string
+	* @param string $url Full URL to resource
+	* @param string|array $data Request payload
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	public function DELETE($url, $data = null);
 
 	/**
-	* @param string $url
-	* @param string/array $data
+	* Performs a HTTP PUT on a given URL
 	*
-	* @return string
+	* @param string $url Full URL to resource
+	* @param string|array $data Request payload
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	public function PUT($url, $data = null);
 

@@ -3,56 +3,27 @@
 namespace Veridu\Signature;
 
 /**
-*	Signature interface
+* Signature interface
 */
 interface Signature {
 	/**
-	* @param string $method
-	* @param string $resource
+	* Generates a content signature to be used as request payload
+	*
+	* @param string $client Client unique ID
+	* @param string $secret Shared secret
+	* @param string $version API/Widget version
+	* @param string $method Request method
+	* @param string $resource Full URL to resource
 	*
 	* @return string
 	*/
-	public function sign($method, $resource);
+	public function sign($client, $secret, $version, $method, $resource);
 
 	/**
+	* Returns the last nonce used
+	*
 	* @return string
 	*/
 	public function lastNonce();
-
-	/**
-	* @param string $value
-	*
-	* @return void
-	*/
-	public function setClient($value);
-
-	/**
-	* @return string
-	*/
-	public function getClient();
-
-	/**
-	* @param string $value
-	*
-	* @return void
-	*/
-	public function setSecret($value);
-
-	/**
-	* @return string
-	*/
-	public function getSecret();
-
-	/**
-	* @param string $value
-	*
-	* @return void
-	*/
-	public function setVersion($value);
-
-	/**
-	* @return string
-	*/
-	public function getVersion();
 
 }

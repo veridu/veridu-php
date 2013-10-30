@@ -8,11 +8,13 @@ namespace Veridu\HTTPClient;
 class CurlClient extends AbstractClient {
 
 	/**
-	* @param string $method
-	* @param string $url
-	* @param string $data
+	* Returns a list of cURL's options to be used as request context.
 	*
-	* @return array
+	* @param string $method Request method
+	* @param string $url Full URL to resource
+	* @param string $data Request payload
+	*
+	* @return array cURL options
 	*/
 	private function createContext($method, $url, $data = null) {
 		$opt = array(
@@ -50,13 +52,16 @@ class CurlClient extends AbstractClient {
 	}
 
 	/**
-	* @param string $method
-	* @param string $url
-	* @param string/array $data
+	* Performs a HTTP request
 	*
-	* @return string
+	* @param string $method Request method
+	* @param string $url Full URL to resource
+	* @param string|array $data Request payload
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	private function curlRequest($method, $url, $data = null) {
 		if (is_array($data))

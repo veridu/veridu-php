@@ -8,8 +8,10 @@ namespace Veridu\HTTPClient;
 class StreamClient extends AbstractClient {
 
 	/**
-	* @param string $method
-	* @param string $data
+	* Creates a request context
+	*
+	* @param string $method Request method
+	* @param string $data Request payload
 	*
 	* @return resource
 	*/
@@ -35,13 +37,16 @@ class StreamClient extends AbstractClient {
 	}
 
 	/**
-	* @param string $method
-	* @param string $url
-	* @param string/array $data
+	* Performs a HTTP request
 	*
-	* @return string
+	* @param string $method Request method
+	* @param string $url Full URL to resource
+	* @param string|array $data Request payload
 	*
-	* @throws ClientFailed EmptyResponse
+	* @return string Request response
+	*
+	* @throws ClientFailed
+	* @throws EmptyResponse
 	*/
 	private function streamRequest($method, $url, $data = null) {
 		if (is_array($data))
