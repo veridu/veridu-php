@@ -9,7 +9,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 //using distribution autoloader
-//$autoloader = require_once __DIR__ . '/autoload.php.dist';
+//$autoloader = require_once __DIR__ . '/autoload.php';
 //$autoloader->setIncludePath(__DIR__ . '/../src/');
 
 //requiring client configuration

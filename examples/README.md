@@ -12,6 +12,10 @@ autoload.php.dist
 This is an `autoloader` (class loader), in case you are not using `Composer` to install this package.
 To use this `autoloader`, rename it to autoload.php and change the `require_once` directive on the example files.
 
+embed.php
+---------
+This example demonstrates how to embed the NemID Applet
+
 logged.php
 ----------
 Common workflow for logged users

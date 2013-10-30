@@ -12,7 +12,7 @@ require_once __DIR__ . '/apicall.php';
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8">
-		<!-- Loading the jQuery Library (required by Widget Library -->
+		<!-- Loading the jQuery Library (required by Widget Library) -->
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<!-- Loading the Widget Library -->
 		<script type="text/javascript" src="https://assets.veridu.com/<?=$config['version'];?>/sdk/veridu-widget.js"></script>
