@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\HTTPClient;
-
 /**
 * HTTP Client interface
 */
+
+namespace Veridu\HTTPClient;
+
 interface HTTPClient {
 
 	/**

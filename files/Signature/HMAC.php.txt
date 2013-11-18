@@ -1,14 +1,16 @@
 <?php
-
-namespace Veridu\Signature;
-
 /**
 * HMAC signature implementation
 */
+
+namespace Veridu\Signature;
+
 class HMAC extends AbstractSignature {
 	private $hash;
 
 	/**
+	* Class constructor
+	*
 	* @param string $hash Hash algorithm name
 	*
 	* @return void

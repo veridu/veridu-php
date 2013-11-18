@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\Signature;
-
 /**
 * Signature interface
 */
+
+namespace Veridu\Signature;
+
 interface Signature {
 	/**
 	* Generates a content signature to be used as request payload

@@ -1,4 +1,7 @@
 <?php
+/**
+* Full API client
+*/
 
 namespace Veridu\SDK;
 
@@ -6,9 +9,6 @@ use Veridu\Common\Config;
 use Veridu\HTTPClient\HTTPClient;
 use Veridu\Signature\Signature;
 
-/**
-* Full API client
-*/
 class API {
 	/**
 	* @var Config Basic client configuration
@@ -26,6 +26,10 @@ class API {
 	* @var string Session token
 	*/
 	private $session = null;
+	/**
+	* @var string Last API call error
+	*/
+	private $lastError = null;
 
 	/**
 	* Base API URL
@@ -54,6 +58,8 @@ class API {
 	}
 
 	/**
+	* Class constructor
+	*
 	* @param Config $config Basic client configuration
 	* @param HTTPClient $http HTTP Client to perform API requests
 	* @param Signature $signature Signature object for signed API requests
@@ -84,6 +90,7 @@ class API {
 	* @throws Exception\APIError
 	*/
 	public function fetch($method, $resource, $data = null) {
+		$this->lastError = null;
 		switch (strtoupper($method)) {
 			case 'GET':
 				$response = $this->http->GET($this->buildURL($resource, $data));

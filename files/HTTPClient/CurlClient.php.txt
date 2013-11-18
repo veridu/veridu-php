@@ -1,11 +1,15 @@
 <?php
-
-namespace Veridu\HTTPClient;
-
 /**
 * cURL HTTP Client implementation
 */
+
+namespace Veridu\HTTPClient;
+
 class CurlClient extends AbstractClient {
+	/**
+	* @var resource Stores a file handler for PUT requests
+	*/
+	private $putHandler = null;
 
 	/**
 	* Returns a list of cURL's options to be used as request context.
@@ -34,18 +38,29 @@ class CurlClient extends AbstractClient {
 				break;
 			case 'POST':
 				$opt[CURLOPT_POST] = true;
-				if (!empty($data))
+				if (empty($data))
+					$opt[CURLOPT_POSTFIELDS] = null;
+				else
 					$opt[CURLOPT_POSTFIELDS] = $data;
 				break;
 			case 'DELETE':
 				$opt[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-				if (!empty($data))
+				if (empty($data))
+					$opt[CURLOPT_POSTFIELDS] = null;
+				else
 					$opt[CURLOPT_POSTFIELDS] = $data;
 				break;
 			case 'PUT':
 				$opt[CURLOPT_PUT] = true;
-				if (!empty($data))
-					$opt[CURLOPT_POSTFIELDS] = $data;
+				if (!empty($data)) {
+					$this->putHandler = fopen('php://memory', 'w');
+					if (!is_resource($this->putHandler))
+						throw new Exception\ClientFailed;
+					fwrite($this->putHandler, $data);
+					fseek($this->putHandler, 0);
+					$opt[CURLOPT_INFILE] = $this->putHandler;
+					$opt[CURLOPT_INFILESIZE] = strlen($data);
+				}
 				break;
 		}
 		return $opt;
@@ -72,12 +87,16 @@ class CurlClient extends AbstractClient {
 		curl_setopt_array($handler, $this->createContext($method, $url, $data));
 		$response = curl_exec($handler);
 		curl_close($handler);
+		if (($method === 'PUT') && (is_resource($this->putHandler)))
+			fclose($this->putHandler);
 		if (empty($response))
 			throw new Exception\EmptyResponse;
 		return $response;
 	}
 
 	/**
+	* Class constructor
+	*
 	* @return void
 	*
 	* @throws ClientFailed

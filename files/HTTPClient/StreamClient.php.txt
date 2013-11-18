@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\HTTPClient;
-
 /**
 * PHP Stream HTTP Client implementation
 */
+
+namespace Veridu\HTTPClient;
+
 class StreamClient extends AbstractClient {
 
 	/**

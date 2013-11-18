@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\SDK;
-
 /**
 *	Session management
 */
+
+namespace Veridu\SDK;
+
 class Session {
 	/**
 	* @var API API Instance
@@ -20,6 +20,8 @@ class Session {
 	private $username = null;
 
 	/**
+	* Class constructor
+	*
 	* @param API $api API object
 	*
 	* @return void
@@ -165,7 +167,7 @@ class Session {
 		$session = $this->api->getSession();
 		if (is_null($session))
 			throw new Exception\EmptySession;
-		$json = $this->signedFetch('DELETE', "session/{$session}");
+		$json = $this->api->signedFetch('DELETE', "session/{$session}");
 		$this->api->purgeSession();
 		$this->setExpires(-1);
 		$this->setUsername(null);

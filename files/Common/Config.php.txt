@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\Common;
-
 /**
 * Basic client configuration
 */
+
+namespace Veridu\Common;
+
 class Config {
 	/**
 	* @var string Client unique ID
@@ -20,6 +20,8 @@ class Config {
 	private $version;
 
 	/**
+	* Class constructor
+	*
 	* @param string $client Client unique ID
 	* @param string $secret Shared secret
 	* @param string $version API/Widget version to be used
