@@ -1,4 +1,7 @@
 <?php
+/**
+* Base exception class
+*/
 
 namespace Veridu\Exception;
 

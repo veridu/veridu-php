@@ -1,11 +1,12 @@
 <?php
+/**
+* Widget endpoint handling
+*/
 
 namespace Veridu\SDK;
 
 use Veridu\Common\Config;
-/**
-* Widget endpoint handling
-*/
+
 class Widget {
 	/**
 	* @var Config Config instance
@@ -26,6 +27,8 @@ class Widget {
 	const BASE_URL = 'https://widget.veridu.com';
 
 	/**
+	* Class constructor
+	*
 	* @param Config $config Config object with basic client configuration
 	* @param string $session Session token
 	* @param string $username Username identification

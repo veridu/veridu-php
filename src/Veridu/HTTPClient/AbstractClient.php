@@ -1,10 +1,10 @@
 <?php
-
-namespace Veridu\HTTPClient;
-
 /**
 * Abstract Client implementation
 */
+
+namespace Veridu\HTTPClient;
+
 abstract class AbstractClient implements HTTPClient {
 	/**
 	* @var array Stores headers name/values
