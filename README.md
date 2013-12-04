@@ -14,7 +14,7 @@ Edit your `composer.json` and add:
 ```json
 {
     "require": {
-        "veridu/veridu-php": "v0.3.1"
+        "veridu/veridu-php": "~0.3"
     }
 }
 ```
