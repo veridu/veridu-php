@@ -65,4 +65,4 @@ For more information on SemVer, please visit [http://semver.org/](http://semver.
 Copyright and license
 ---------------------
 
-Copyright 2013 Veridu ApS.
+Copyright (c) 2013/2014 - Veridu ApS - [http://veridu.com](veridu.com)
