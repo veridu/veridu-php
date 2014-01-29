@@ -1,6 +1,6 @@
 <?php
 
-namespace Veridu\SDK\Exception;
+namespace Veridu\Signature\Exception;
 
 use Veridu\Exception\Exception;
 

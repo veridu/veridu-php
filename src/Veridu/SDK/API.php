@@ -143,7 +143,7 @@ class API {
 		);
 		$json = $this->fetch($method, $resource, $sign);
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))
-			throw new Signature\Exception\NonceMismatch;
+			throw new \Veridu\Signature\Exception\NonceMismatch;
 		unset($json['nonce']);
 		return $json;
 	}
