@@ -124,6 +124,7 @@ class API {
 	*
 	* @param string $method Request method
 	* @param string $resource Resource URI
+	* @param string|array $data Request payload/query string
 	*
 	* @return string
 	*
@@ -133,7 +134,7 @@ class API {
 	* @throws Exception\APIError
 	* @throws \Veridu\Signature\Exception\NonceMismatch
 	*/
-	public function signedFetch($method, $resource) {
+	public function signedFetch($method, $resource, $data = null) {
 		$sign = $this->signature->sign(
 			$this->config->getClient(),
 			$this->config->getSecret(),
@@ -141,7 +142,13 @@ class API {
 			$method,
 			$this->buildURL($resource)
 		);
-		$json = $this->fetch($method, $resource, $sign);
+		if (empty($data))
+			$json = $this->fetch($method, $resource, $sign);
+		else {
+			if (is_array($data))
+				$data = http_build_query($data, '', '&', PHP_QUERY_RFC1738);
+			$json = $this->fetch($method, $resource, "{$sign}&{$data}");
+		}
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))
 			throw new \Veridu\Signature\Exception\NonceMismatch;
 		unset($json['nonce']);
