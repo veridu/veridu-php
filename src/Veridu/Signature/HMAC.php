@@ -16,6 +16,8 @@ class HMAC extends AbstractSignature {
 	* @return void
 	*/
 	public function __construct($hash = 'sha1') {
+		if (!in_array($hash, hash_algos()))
+			throw new Exception\InvalidAlgorithm;
 		$this->hash = $hash;
 	}
 
@@ -46,6 +48,7 @@ class HMAC extends AbstractSignature {
 		$this->nonce = bin2hex(openssl_random_pseudo_bytes(10));
 		$param = array(
 			'client' => $client,
+			'hash' => $this->hash,
 			'method' => $method,
 			'nonce' => $this->nonce,
 			'resource' => $resource,
