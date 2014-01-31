@@ -5,6 +5,8 @@
 
 namespace Veridu\HTTPClient;
 
+use Veridu\Common\Compat;
+
 class StreamClient extends AbstractClient {
 
 	/**
@@ -50,7 +52,7 @@ class StreamClient extends AbstractClient {
 	*/
 	private function streamRequest($method, $url, $data = null) {
 		if (is_array($data))
-			$data = http_build_query($data, '', '&', PHP_QUERY_RFC1738);
+			$data = Compat::buildQuery($data);
 		$stream = @fopen($url, 'r', false, $this->createContext($method, $data));
 		if (!is_resource($stream))
 			throw new Exception\ClientFailed;;

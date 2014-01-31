@@ -5,6 +5,8 @@
 
 namespace Veridu\HTTPClient;
 
+use Veridu\Common\Compat;
+
 class CurlClient extends AbstractClient {
 	/**
 	* @var resource Stores a file handler for PUT requests
@@ -80,7 +82,7 @@ class CurlClient extends AbstractClient {
 	*/
 	private function curlRequest($method, $url, $data = null) {
 		if (is_array($data))
-			$data = http_build_query($data, '', '&', PHP_QUERY_RFC1738);
+			$data = Compat::buildQuery($data);
 		$handler = curl_init();
 		if (!is_resource($handler))
 			throw new Exception\ClientFailed;

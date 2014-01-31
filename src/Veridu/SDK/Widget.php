@@ -6,6 +6,7 @@
 namespace Veridu\SDK;
 
 use Veridu\Common\Config;
+use Veridu\Common\Compat;
 
 class Widget {
 	/**
@@ -39,9 +40,6 @@ class Widget {
 		$this->config = $config;
 		$this->session = $session;
 		$this->username = $username;
-		//workaround for PHP 5.3
-		if (!defined('PHP_QUERY_RFC1738'))
-			define('PHP_QUERY_RFC1738', 1);
 	}
 
 	/**
@@ -122,7 +120,7 @@ class Widget {
 			$query = "session={$this->session}";
 		else if (is_array($query)) {
 			$query['session'] = $this->session;
-			$query = http_build_query($query, '', '&', PHP_QUERY_RFC1738);
+			$query = Compat::buildQuery($query);
 		} else
 			$query .= "&session={$this->session}";
 		return sprintf("%s/%s/%s/%s/%s?%s", self::BASE_URL, $this->config->getVersion(), $resource, $this->config->getClient(), $this->username, $query);

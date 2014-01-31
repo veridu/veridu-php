@@ -5,6 +5,8 @@
 
 namespace Veridu\Signature;
 
+use Veridu\Common\Compat;
+
 class HMAC extends AbstractSignature {
 	private $hash;
 
@@ -56,8 +58,8 @@ class HMAC extends AbstractSignature {
 			'version' => $version
 		);
 		ksort($param);
-		$param['signature'] = hash_hmac($this->hash, http_build_query($param, '', '&', PHP_QUERY_RFC1738), $secret);
-		return http_build_query($param, '', '&', PHP_QUERY_RFC1738);
+		$param['signature'] = hash_hmac($this->hash, Compat::buildQuery($param), $secret);
+		return Compat::buildQuery($param);
 	}
 
 }
