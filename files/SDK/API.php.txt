@@ -6,6 +6,7 @@
 namespace Veridu\SDK;
 
 use Veridu\Common\Config;
+use Veridu\Common\Compat;
 use Veridu\HTTPClient\HTTPClient;
 use Veridu\Signature\Signature;
 
@@ -47,7 +48,7 @@ class API {
 	private function buildURL($resource, $query = null) {
 		$resource = ltrim($resource, '/');
 		if (is_array($query))
-			$query = http_build_query($query, '', '&', PHP_QUERY_RFC1738);
+			$query = Compat::buildQuery($query);
 		if (!empty($query)) {
 			if (strpos($resource, '?') === false)
 				$resource .= "?{$query}";
@@ -70,9 +71,6 @@ class API {
 		$this->config = $config;
 		$this->setHTTP($http);
 		$this->setSignature($signature);
-		//workaround for PHP 5.3
-		if (!defined('PHP_QUERY_RFC1738'))
-			define('PHP_QUERY_RFC1738', 1);
 	}
 
 	/**
@@ -124,6 +122,7 @@ class API {
 	*
 	* @param string $method Request method
 	* @param string $resource Resource URI
+	* @param string|array $data Request payload/query string
 	*
 	* @return string
 	*
@@ -133,7 +132,7 @@ class API {
 	* @throws Exception\APIError
 	* @throws \Veridu\Signature\Exception\NonceMismatch
 	*/
-	public function signedFetch($method, $resource) {
+	public function signedFetch($method, $resource, $data = null) {
 		$sign = $this->signature->sign(
 			$this->config->getClient(),
 			$this->config->getSecret(),
@@ -141,9 +140,15 @@ class API {
 			$method,
 			$this->buildURL($resource)
 		);
-		$json = $this->fetch($method, $resource, $sign);
+		if (empty($data))
+			$json = $this->fetch($method, $resource, $sign);
+		else {
+			if (is_array($data))
+				$data = Compat::buildQuery($data);
+			$json = $this->fetch($method, $resource, "{$sign}&{$data}");
+		}
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))
-			throw new Signature\Exception\NonceMismatch;
+			throw new \Veridu\Signature\Exception\NonceMismatch;
 		unset($json['nonce']);
 		return $json;
 	}
