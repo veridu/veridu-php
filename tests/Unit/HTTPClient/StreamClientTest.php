@@ -37,7 +37,7 @@ class StreamClientTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvalidGET() {
-		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\EmptyResponse');
+		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\ClientFailed');
 		$this->stream->GET('http://example.invalid');
 	}
 
@@ -54,7 +54,7 @@ class StreamClientTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvalidPOST() {
-		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\EmptyResponse');
+		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\ClientFailed');
 		$this->stream->POST('http://example.invalid');
 	}
 
@@ -71,7 +71,7 @@ class StreamClientTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvalidDELETE() {
-		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\EmptyResponse');
+		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\ClientFailed');
 		$this->stream->DELETE('http://example.invalid');
 	}
 
@@ -88,7 +88,7 @@ class StreamClientTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvalidPUT() {
-		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\EmptyResponse');
+		$this->setExpectedException('Veridu\\HTTPClient\\Exception\\ClientFailed');
 		$this->stream->PUT('http://example.invalid');
 	}
 

@@ -88,9 +88,12 @@ class CurlClient extends AbstractClient {
 			throw new Exception\ClientFailed;
 		curl_setopt_array($handler, $this->createContext($method, $url, $data));
 		$response = curl_exec($handler);
+		$error = curl_errno($handler);
 		curl_close($handler);
 		if (($method === 'PUT') && (is_resource($this->putHandler)))
 			fclose($this->putHandler);
+		if ($error > 0)
+			throw new Exception\ClientFailed;
 		if (empty($response))
 			throw new Exception\EmptyResponse;
 		return $response;
