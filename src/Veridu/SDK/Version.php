@@ -14,12 +14,12 @@ class Version {
 	/**
 	* Minor version
 	*/
-	const MINOR = 3;
+	const MINOR = 4;
 
 	/**
 	* Revision version
 	*/
-	const REVISION = 3;
+	const REVISION = 0;
 
 	/**
 	* Returns the current version in the format MAJOR.MINOR.REVISION
