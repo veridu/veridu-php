@@ -7,6 +7,7 @@ namespace Veridu\SDK;
 
 use Veridu\Common\Config;
 use Veridu\Common\Compat;
+use Veridu\Common\URL;
 
 class Widget {
 	/**
@@ -110,20 +111,21 @@ class Widget {
 	*
 	* @return string
 	*
-	* @throws MissingUsername
+	* @throws Exception\EmptyWidgetUsername
+	* @throws Exception\EmptyWidgetSession
 	*/
 	public function getEndpoint($resource, $query = null) {
 		if (empty($this->username))
-			throw new Exception\MissingUsername;
-		$resource = trim($resource, '/');
-		if (is_null($query))
+			throw new Exception\EmptyWidgetUsername;
+		if (empty($this->session))
+			throw new Exception\EmptyWidgetSession;
+		if (empty($query))
 			$query = "session={$this->session}";
-		else if (is_array($query)) {
+		else if (is_array($query))
 			$query['session'] = $this->session;
-			$query = Compat::buildQuery($query);
-		} else
+		else
 			$query .= "&session={$this->session}";
-		return sprintf("%s/%s/%s/%s/%s?%s", self::BASE_URL, $this->config->getVersion(), $resource, $this->config->getClient(), $this->username, $query);
+		return URL::build(self::BASE_URL, array($this->config->getVersion(), $resource, $this->config->getClient(), $this->username), $query);
 	}
 
 }
