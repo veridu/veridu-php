@@ -167,7 +167,7 @@ class Session {
 		$session = $this->api->getSession();
 		if (is_null($session))
 			throw new Exception\EmptySession;
-		$json = $this->api->signedFetch('DELETE', "session/{$session}");
+		$this->api->signedFetch('DELETE', "session/{$session}");
 		$this->api->purgeSession();
 		$this->setExpires(-1);
 		$this->setUsername(null);
@@ -192,7 +192,7 @@ class Session {
 			throw new Exception\EmptySession;
 		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
 			throw new Exception\InvalidUsername;
-		$json = $this->api->signedFetch('POST', "user/{$username}");
+		$this->api->signedFetch('POST', "user/{$username}");
 		$this->setUsername($username);
 	}
 

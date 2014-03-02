@@ -62,7 +62,11 @@ And constructed with the following guidelines:
 
 For more information on SemVer, please visit [http://semver.org/](http://semver.org/).
 
+Tests
+-----
+To run the tests, you must install dependencies with `composer install --dev`.
+
 Copyright and license
 ---------------------
 
-Copyright (c) 2013/2014 - Veridu ApS - [http://veridu.com](veridu.com)
+Copyright (c) 2013/2014 - Veridu Ltd - [http://veridu.com](veridu.com)

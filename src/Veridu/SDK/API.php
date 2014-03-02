@@ -7,6 +7,7 @@ namespace Veridu\SDK;
 
 use Veridu\Common\Config;
 use Veridu\Common\Compat;
+use Veridu\Common\URL;
 use Veridu\HTTPClient\HTTPClient;
 use Veridu\Signature\Signature;
 
@@ -36,27 +37,6 @@ class API {
 	* Base API URL
 	*/
 	const BASE_URL = 'https://api.veridu.com';
-
-	/**
-	* Builds an API full URL, properly encoded
-	*
-	* @param string $resource Resource URI
-	* @param string|array $query Request query string
-	*
-	* @return string
-	*/
-	private function buildURL($resource, $query = null) {
-		$resource = ltrim($resource, '/');
-		if (is_array($query))
-			$query = Compat::buildQuery($query);
-		if (!empty($query)) {
-			if (strpos($resource, '?') === false)
-				$resource .= "?{$query}";
-			else
-				$resource .= "&{$query}";
-		}
-		return sprintf("%s/%s/%s", self::BASE_URL, $this->config->getVersion(), $resource);
-	}
 
 	/**
 	* Class constructor
@@ -91,16 +71,16 @@ class API {
 		$this->lastError = null;
 		switch (strtoupper($method)) {
 			case 'GET':
-				$response = $this->http->GET($this->buildURL($resource, $data));
+				$response = $this->http->GET(URL::build(self::BASE_URL, array($this->config->getVersion(), $resource), $data));
 				break;
 			case 'POST':
-				$response = $this->http->POST($this->buildURL($resource), $data);
+				$response = $this->http->POST(URL::build(self::BASE_URL, array($this->config->getVersion(), $resource)), $data);
 				break;
 			case 'DELETE':
-				$response = $this->http->DELETE($this->buildURL($resource), $data);
+				$response = $this->http->DELETE(URL::build(self::BASE_URL, array($this->config->getVersion(), $resource)), $data);
 				break;
 			case 'PUT':
-				$response = $this->http->PUT($this->buildURL($resource), $data);
+				$response = $this->http->PUT(URL::build(self::BASE_URL, array($this->config->getVersion(), $resource)), $data);
 				break;
 			default:
 				throw new Exception\InvalidMethod;
@@ -109,7 +89,7 @@ class API {
 		if (is_null($json))
 			throw new Exception\InvalidFormat($response);
 		if (!isset($json['status']))
-			throw new Exception\InvalidResponse($json);
+			throw new Exception\InvalidResponse($response);
 		if ($json['status'] === false) {
 			$this->lastError = $json['error']['type'];
 			throw new Exception\APIError($json['error']['message']);
@@ -138,13 +118,15 @@ class API {
 			$this->config->getSecret(),
 			$this->config->getVersion(),
 			$method,
-			$this->buildURL($resource)
+			URL::build(self::BASE_URL, array($this->config->getVersion(), $resource))
 		);
 		if (empty($data))
 			$json = $this->fetch($method, $resource, $sign);
 		else {
 			if (is_array($data))
 				$data = Compat::buildQuery($data);
+			$data = ltrim($data, '?');
+			$data = ltrim($data, '&');
 			$json = $this->fetch($method, $resource, "{$sign}&{$data}");
 		}
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))
