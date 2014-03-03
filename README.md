@@ -2,7 +2,7 @@ Veridu PHP SDK
 ==============
 
 [![Build Status](https://travis-ci.org/veridu/veridu-php.png?branch=master)](https://travis-ci.org/veridu/veridu-php)
-[![Latest Stable Version](https://poser.pugx.org/veridu/veridu-php/v/stable.png)](https://packagist.org/packages/veridu-veridu-php)
+[![Latest Stable Version](https://poser.pugx.org/veridu/veridu-php/v/stable.png)](https://packagist.org/packages/veridu/veridu-php)
 [![Total Downloads](https://poser.pugx.org/veridu/veridu-php/downloads.png)](https://packagist.org/packages/veridu/veridu-php)
 
 Installation

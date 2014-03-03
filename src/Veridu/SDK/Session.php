@@ -1,6 +1,6 @@
 <?php
 /**
-*	Session management
+* Session management
 */
 
 namespace Veridu\SDK;
