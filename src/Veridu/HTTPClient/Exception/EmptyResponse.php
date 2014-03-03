@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when a server sends an empty response.
+*/
 
 namespace Veridu\HTTPClient\Exception;
 

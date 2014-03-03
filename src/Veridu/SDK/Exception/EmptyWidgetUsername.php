@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when trying to get a Widget Endpoint without a username set.
+*/
 
 namespace Veridu\SDK\Exception;
 

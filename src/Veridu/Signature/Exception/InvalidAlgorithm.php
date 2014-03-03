@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when setting an invalid HMAC Hash algorithm.
+*/
 
 namespace Veridu\Signature\Exception;
 

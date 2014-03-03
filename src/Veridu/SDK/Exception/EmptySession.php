@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown while trying to fetch an API Resource that requires a session token without having one.
+*/
 
 namespace Veridu\SDK\Exception;
 

@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when status field is not present on response payload.
+*/
 
 namespace Veridu\SDK\Exception;
 

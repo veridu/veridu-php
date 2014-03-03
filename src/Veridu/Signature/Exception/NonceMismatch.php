@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when Request Nonce and Response Nonce don't match.
+*/
 
 namespace Veridu\Signature\Exception;
 

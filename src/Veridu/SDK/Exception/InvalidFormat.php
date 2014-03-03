@@ -1,4 +1,7 @@
 <?php
+/**
+* Exception thrown when server response isn't a valid JSON.
+*/
 
 namespace Veridu\SDK\Exception;
 
