@@ -27,7 +27,7 @@ class HMACTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSHA1Sign() {
 		$sign = $this->hmac->sign('client', 'secret', 'version', 'method', 'resource');
-		$query = sprintf("client=client&hash=sha1&method=method&nonce=%s&resource=resource&timestamp=%d&version=version", $this->hmac->lastNonce(), time());
+		$query = sprintf("client=client&hash=sha1&method=METHOD&nonce=%s&resource=resource&timestamp=%d&version=version", $this->hmac->lastNonce(), time());
 		$signature = hash_hmac('sha1', $query, 'secret');
 		$this->assertSame("{$query}&signature={$signature}", $sign);
 
@@ -36,7 +36,7 @@ class HMACTest extends \PHPUnit_Framework_TestCase {
 	public function testSHA256Sign() {
 		$this->hmac->setHash('sha256');
 		$sign = $this->hmac->sign('client', 'secret', 'version', 'method', 'resource');
-		$query = sprintf("client=client&hash=sha256&method=method&nonce=%s&resource=resource&timestamp=%d&version=version", $this->hmac->lastNonce(), time());
+		$query = sprintf("client=client&hash=sha256&method=METHOD&nonce=%s&resource=resource&timestamp=%d&version=version", $this->hmac->lastNonce(), time());
 		$signature = hash_hmac('sha256', $query, 'secret');
 		$this->assertSame("{$query}&signature={$signature}", $sign);
 	}

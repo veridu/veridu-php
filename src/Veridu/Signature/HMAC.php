@@ -51,7 +51,7 @@ class HMAC extends AbstractSignature {
 		$param = array(
 			'client' => $client,
 			'hash' => $this->hash,
-			'method' => $method,
+			'method' => strtoupper($method),
 			'nonce' => $this->nonce,
 			'resource' => $resource,
 			'timestamp' => time(),
