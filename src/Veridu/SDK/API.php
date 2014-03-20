@@ -125,8 +125,7 @@ class API {
 		else {
 			if (is_array($data))
 				$data = Compat::buildQuery($data);
-			$data = ltrim($data, '?');
-			$data = ltrim($data, '&');
+			$data = ltrim($data, '?&');
 			$json = $this->fetch($method, $resource, "{$sign}&{$data}");
 		}
 		if ((empty($json['nonce'])) || (strcmp($json['nonce'], $this->signature->lastNonce()) != 0))

@@ -84,7 +84,7 @@ class CurlClientTest extends \PHPUnit_Framework_TestCase {
 	public function testValidPUTWithData() {
 		$response = $this->curl->PUT('http://httpbin.org/put', array('key' => 'value'));
 		$json = json_decode($response, true);
-		$this->assertSame('key=value', $json['data']);
+		$this->assertSame('value', $json['form']['key']);
 	}
 
 	public function testInvalidPUT() {

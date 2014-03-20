@@ -136,6 +136,8 @@ class CurlClient extends AbstractClient {
 	* {@inheritDoc}
 	*/
 	public function PUT($url, $data = null) {
+		if (!isset($this->headers['Content-Type']))
+			$this->headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		return $this->curlRequest('PUT', $url, $data);
 	}
 

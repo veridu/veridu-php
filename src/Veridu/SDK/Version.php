@@ -19,7 +19,7 @@ class Version {
 	/**
 	* Revision version
 	*/
-	const REVISION = 1;
+	const REVISION = 2;
 
 	/**
 	* Returns the current version in the format MAJOR.MINOR.REVISION
