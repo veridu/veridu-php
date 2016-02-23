@@ -66,6 +66,34 @@ class StreamClient extends AbstractClient {
 	/**
 	* {@inheritDoc}
 	*/
+	public function getRequestHeaders() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getRequestData() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getResponseHeaders() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getResponseData() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
 	public function GET($url) {
 		return $this->streamRequest('GET', $url);
 	}

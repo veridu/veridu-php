@@ -5,7 +5,7 @@
 
 namespace Veridu\Signature;
 
-abstract class AbstractSignature implements Signature {
+abstract class AbstractSignature implements SignatureInterface {
 	/**
 	* @var string An arbitrary string, to identify the request.
 	*/

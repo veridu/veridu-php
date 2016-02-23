@@ -1,6 +1,9 @@
 #composer vendor folder
 vendor/
 
+.DS_Store
+
 #sublime files
-*.sublime-project
 *.sublime-workspace
+*.sublime-project
+sftp-config.json

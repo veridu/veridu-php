@@ -114,6 +114,34 @@ class CurlClient extends AbstractClient {
 	/**
 	* {@inheritDoc}
 	*/
+	public function getRequestHeaders() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getRequestData() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getResponseHeaders() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public function getResponseData() {
+
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
 	public function GET($url) {
 		return $this->curlRequest('GET', $url);
 	}

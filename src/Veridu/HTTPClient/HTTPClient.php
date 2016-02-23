@@ -95,4 +95,18 @@ interface HTTPClient {
 	*/
 	public function PUT($url, $data = null);
 
+	/**
+	* Returns all request headers after a request is performed
+	*
+	* @return string|null Request Headers
+	*/
+	public function getRequestHeaders();
+
+	/**
+	* Returns all response headers after a request is performed
+	*
+	* @return string|null Response Headers
+	*
+	*/
+	public function getResponseHeaders();
 }
