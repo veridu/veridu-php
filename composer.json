@@ -6,24 +6,25 @@
     "authors": [
         {
             "name": "Veridu Ltd",
-            "email": "contact@veridu.com"
+            "email": "hello@veridu.com"
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.6.0",
+        "guzzlehttp/guzzle": "6.0.*"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.1.*",
-        "phpunit/phpunit": "3.7.*"
+        "phpdocumentor/phpdocumentor": "2.8.*",
+        "phpunit/phpunit": "4.8.*"
     },
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
             "Veridu": "src",
-            "VeriduTest\\Unit": "tests"
+            "Test": "test"
         }
     },
     "suggest": {
-        "ext-curl": "cURL based HTTP Client"
+        "ext-json": "JSON extension"
     }
 }

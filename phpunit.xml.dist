@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="true"
          backupStaticAttributes="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="test/bootstrap.php"
          colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          forceCoversAnnotation="false"
          mapTestClassNameToCoveredClassName="false"
-         processIsolation="true"
+         processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
-         strict="false"
          verbose="false">
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
+        <testsuite name="Test">
+            <directory>test/</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -26,19 +25,15 @@
             <directory suffix=".php">src/</directory>
             <exclude>
                 <file>src/Veridu/Exception/Exception.php</file>
-                <file>src/Veridu/HTTPClient/Exception/ClientFailed.php</file>
-                <file>src/Veridu/HTTPClient/Exception/EmptyResponse.php</file>
-                <file>src/Veridu/SDK/Exception/APIError.php</file>
-                <file>src/Veridu/SDK/Exception/EmptySession.php</file>
-                <file>src/Veridu/SDK/Exception/EmptyWidgetSession.php</file>
-                <file>src/Veridu/SDK/Exception/EmptyWidgetUsername.php</file>
-                <file>src/Veridu/SDK/Exception/InvalidFormat.php</file>
-                <file>src/Veridu/SDK/Exception/InvalidMethod.php</file>
-                <file>src/Veridu/SDK/Exception/InvalidResponse.php</file>
-                <file>src/Veridu/SDK/Exception/InvalidUsername.php</file>
-                <file>src/Veridu/SDK/Version.php</file>
-                <file>src/Veridu/Signature/Exception/InvalidAlgorithm.php</file>
-                <file>src/Veridu/Signature/Exception/NonceMismatch.php</file>
+                <file>src/Veridu/API/Exception/APIError.php</file>
+                <file>src/Veridu/API/Exception/EmptySession.php</file>
+                <file>src/Veridu/API/Exception/EmptyWidgetSession.php</file>
+                <file>src/Veridu/API/Exception/EmptyWidgetUsername.php</file>
+                <file>src/Veridu/API/Exception/InvalidFormat.php</file>
+                <file>src/Veridu/API/Exception/InvalidMethod.php</file>
+                <file>src/Veridu/API/Exception/InvalidResponse.php</file>
+                <file>src/Veridu/API/Exception/InvalidUsername.php</file>
+                <file>src/Veridu/API/Version.php</file>
             </exclude>
         </whitelist>
     </filter>
