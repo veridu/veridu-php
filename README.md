@@ -15,7 +15,7 @@ Edit your `composer.json` and add:
 ```json
 {
     "require": {
-        "veridu/veridu-php": "~0.4"
+        "veridu/veridu-php": "1.0"
     }
 }
 ```
@@ -33,10 +33,7 @@ Latest code documentation can be found at [http://veridu.github.io/veridu-php](h
 
 Features
 --------
- - PSR-0 compliant for easy interoperability
- - Stream and cURL HTTP Clients available
- - Session management class
- - Widget endpoint generator
+ - Easier way to access the resources(Session, Appplication, User, Hook, etc)
 
 Examples
 --------
@@ -67,7 +64,3 @@ Tests
 -----
 To run the tests, you must install dependencies with `composer install --dev`.
 
-Copyright and license
----------------------
-
-Copyright (c) 2013/2014 - Veridu Ltd - [http://veridu.com](veridu.com)

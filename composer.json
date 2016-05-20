@@ -1,6 +1,7 @@
 {
     "name": "veridu/veridu-php",
     "description": "Veridu PHP SDK",
+    "version": "1.0",
     "keywords": ["veridu", "sdk", "user identification", "social media", "online services", "single sign on"],
     "homepage": "http://veridu.github.io/veridu-php",
     "authors": [
