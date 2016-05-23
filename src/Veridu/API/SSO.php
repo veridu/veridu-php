@@ -13,18 +13,20 @@ use Veridu\Exception;
 	*
 	* @return string User identification
 	*/
-	public function createOAuth1($provider, $token, $secret, $mergeHash = null) {
+	public function createOAuth1($provider, $token, $secret, $appid, $mergeHash = null) {
 		$this->validateNotEmptySessionOrFail();
 		if ($mergeHash)
 			$data = array(
 					'token' => $token,
 					'secret' => $secret,
+					'appid' => $appid,
 					'merge' => $mergeHash
 				);
 		else
 			$data = array (
 					'token' => $token,
-					'secret' => $secret
+					'secret' => $secret,
+					'appid' => $appid
 				);
 
 		$json = $this->signedFetch(
