@@ -33,6 +33,7 @@ Latest code documentation can be found at [http://veridu.github.io/veridu-php](h
 
 Features
 --------
+ - PSR-0 compliant for easy interoperability
  - Easier way to access the resources(Session, Appplication, User, Hook, etc)
 
 Examples
