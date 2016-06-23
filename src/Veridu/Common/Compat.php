@@ -5,7 +5,7 @@
 
 namespace Veridu\Common;
 
-class Compat {
+final class Compat {
 
 	/**
 	* Compatibility for http_build_query

@@ -59,7 +59,7 @@ class HMAC extends AbstractSignature {
 		);
 		ksort($param);
 		$param['signature'] = hash_hmac($this->hash, Compat::buildQuery($param), $secret);
-		return Compat::buildQuery($param);
+		return $param;
 	}
 
 }
