@@ -37,7 +37,7 @@ Features
 
 Examples
 --------
-Examples of basic usage are located in the examples/ directory.
+Examples of basic usage are located in the [samples repository](https://github.com/veridu/samples).
 
 Bugs and feature requests
 -------------------------
