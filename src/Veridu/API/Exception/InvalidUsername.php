@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class InvalidUsername extends \Exception {
-	protected $message = 'Invalid username format.';
+class InvalidUsername extends \Exception
+{
+    protected $message = 'Invalid username format.';
 }

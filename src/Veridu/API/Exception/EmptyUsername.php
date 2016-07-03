@@ -5,7 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-
-class EmptyUsername extends \Exception {
-	protected $message = 'Empty Username.';
+class EmptyUsername extends \Exception
+{
+    protected $message = 'Empty Username.';
 }

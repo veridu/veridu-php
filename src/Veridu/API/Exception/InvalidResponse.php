@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class InvalidResponse extends \Exception {
-	protected $message = 'The API response is invalid.';
+class InvalidResponse extends \Exception
+{
+    protected $message = 'The API response is invalid.';
 }

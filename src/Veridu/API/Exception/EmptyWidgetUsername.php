@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class EmptyWidgetUsername extends \Exception {
-	protected $message = 'A username is required to create a widget endpoint.';
+class EmptyWidgetUsername extends \Exception
+{
+    protected $message = 'A username is required to create a widget endpoint.';
 }

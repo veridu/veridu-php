@@ -5,6 +5,7 @@
 
 namespace Veridu\Signature\Exception;
 
-class InvalidAlgorithm extends \Exception {
-	protected $message = 'Invalid HMAC Hash algorithm.';
+class InvalidAlgorithm extends \Exception
+{
+    protected $message = 'Invalid HMAC Hash algorithm.';
 }

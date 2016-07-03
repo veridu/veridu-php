@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class APIError extends \Exception {
-	protected $message = 'The API returned an error.';
+class APIError extends \Exception
+{
+    protected $message = 'The API returned an error.';
 }
