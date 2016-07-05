@@ -2,19 +2,23 @@
 
 namespace VeriduTest\Signature;
 
-class AbstractSignatureTest extends \PHPUnit_Framework_TestCase {
+class AbstractSignatureTest extends \PHPUnit_Framework_TestCase
+{
 
-	private $signature = null;
+    private $signature = null;
 
-	protected function setUp() {
-		$this->signature = $this->getMockForAbstractClass('Veridu\Signature\HMAC');
-	}
+    protected function setUp()
+    {
+        $this->signature = $this->getMockForAbstractClass('Veridu\Signature\HMAC');
+    }
 
-	public function testConstructCorrectInterface() {
-		$this->assertInstanceOf('Veridu\\Signature\\AbstractSignature', $this->signature);
-	}
+    public function testConstructCorrectInterface()
+    {
+        $this->assertInstanceOf('Veridu\\Signature\\AbstractSignature', $this->signature);
+    }
 
-	public function testLastNonce() {
-		$this->assertNull($this->signature->lastNonce());
-	}
+    public function testLastNonce()
+    {
+        $this->assertNull($this->signature->lastNonce());
+    }
 }

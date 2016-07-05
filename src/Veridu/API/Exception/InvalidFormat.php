@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class InvalidFormat extends \Exception {
-	protected $message = 'The API response is in an invalid format.';
+class InvalidFormat extends \Exception
+{
+    protected $message = 'The API response is in an invalid format.';
 }

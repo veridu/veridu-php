@@ -5,6 +5,7 @@
 
 namespace Veridu\Signature\Exception;
 
-class NonceMismatch extends \Exception {
-	protected $message = 'Request and response nonce mismatch.';
+class NonceMismatch extends \Exception
+{
+    protected $message = 'Request and response nonce mismatch.';
 }

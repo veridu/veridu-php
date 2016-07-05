@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class InvalidMethod extends \Exception {
-	protected $message = 'Invalid fetch method.';
+class InvalidMethod extends \Exception
+{
+    protected $message = 'Invalid fetch method.';
 }

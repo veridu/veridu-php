@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class EmptySession extends \Exception {
-	protected $message = 'A session is required to fetch this resource.';
+class EmptySession extends \Exception
+{
+    protected $message = 'A session is required to fetch this resource.';
 }

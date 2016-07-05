@@ -5,6 +5,7 @@
 
 namespace Veridu\API\Exception;
 
-class InvalidProvider extends \Exception {
-	protected $message = 'Invalid provider.';
+class InvalidProvider extends \Exception
+{
+    protected $message = 'Invalid provider.';
 }
