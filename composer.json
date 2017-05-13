@@ -1,7 +1,14 @@
 {
     "name": "veridu/veridu-php",
     "description": "Veridu PHP SDK",
-    "keywords": ["veridu", "sdk", "user identification", "social media", "online services", "single sign on"],
+    "keywords": [
+        "veridu",
+        "sdk",
+        "user identification",
+        "social media",
+        "online services",
+        "single sign on"
+    ],
     "homepage": "http://veridu.github.io/veridu-php",
     "authors": [
         {
@@ -14,8 +21,8 @@
         "guzzlehttp/guzzle": "6.*"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.8.*",
-        "phpunit/phpunit": "4.8.*"
+        "phpdocumentor/phpdocumentor": "^2.9.0",
+        "phpunit/phpunit": "^6.1.3"
     },
     "minimum-stability": "dev",
     "autoload": {
